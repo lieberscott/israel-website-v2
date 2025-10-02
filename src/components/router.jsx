@@ -4,10 +4,8 @@ import staticLocationHook from "wouter/static-location";
 
 
 
-import PageMain from "../pages/singleExample/PageMain.jsx";
 import Test from "../pages/singleExample/Test.jsx";
-import ChatGPTpage from "../pages/singleExample/ChatGPTpage.jsx";
-import TweetBody from "../pages/singleExample/TweetBody.jsx";
+import MainPage from "../pages/singleExample/MainPage.jsx";
 
 
 import Home from "../pages/home";
@@ -31,7 +29,7 @@ export default () => (
     <Route path="/tweet" component={Tweet} />
     <Route path="/tweetsHTML" component={TweetsHTML} />
     <Route path="/tweetMain" component={TweetMain} />
-    <Route path="/category/:cat" component={TweetBody} />
+    <Route path="/category/:cat" component={MainPage} />
     <Route path="/test" component={Test} />
   </Switch>
 );
