@@ -15,3 +15,9 @@ const keyword3 = {
     keywordId: "AntonioGuterres",
     exampleIds: ["00000000C"]
 }
+
+const keyword4 = {
+  text: "Qatar",
+  keywordId: "Qatar",
+  exampleIds: ["00000000H"]
+}
