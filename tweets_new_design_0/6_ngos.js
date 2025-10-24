@@ -1,11 +1,12 @@
-export const claim6 = {
+const claim6 = {
   dateAdded: "",
   claimText: "NGOs are not impartial, unbiased, professional humanitarian organizations, but are highly politicized anti-Israel activist organizations, to the point of discarding truth.",
+  claimShortText: "NGOs",
   claimId: "000000006",
   incidentIds: []
 }
 
-export const examples6 = [
+const examples6 = [
   {
     dateAdded: "",
     date: "2023-10-17",
@@ -18,11 +19,18 @@ export const examples6 = [
   }
 ]
 
+module.exports = { claim6, examples6 };
+
 /* al-ahli hoax
 Even palestinian media saying it was PIJ: https://x.com/jdwstangs3/status/1714755730736033906
 
 MSF (Doctors without borders) former exec says orgnaization is biased and is pro-Hamas now
 
 Amnesty tearing down hostage posters in Italy
+
+Tim Dillon
+- obsessed with Israel/Mossad, but no obsession with Tucker Carlson's connection to CIA (Tucker's father was in the CIA, Tucker was rejected)
+- 
+
 
 */

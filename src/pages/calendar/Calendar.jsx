@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import "../../styles/calendarStyles.css"; // import the CSS file
 
-const Calendar = ({ onDateSelect, dataForDate }) => {
+const Calendar = ({ onDateSelect, summaryData, setDisplayedDate, displayedDate }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Move to previous month
   const prevMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+    const newYear = currentDate.getFullYear();
+    const newMonth = currentDate.getMonth() - 1;
+
+    setCurrentDate(new Date(newYear, newMonth, 1));
+    onDateSelect(`${newYear}-${newMonth}-1`, true); // get summaryOnly of prevMonth's records
   };
 
   // Move to next month
   const nextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+    const newYear = currentDate.getFullYear();
+    const newMonth = currentDate.getMonth() + 1;
+    setCurrentDate(new Date(newYear, newMonth, 1));
+    onDateSelect(`${newYear}-${newMonth}-1`, true); // get summaryOnly of nextMonth's records
   };
 
   // Get all days in the current month
@@ -23,11 +30,16 @@ const Calendar = ({ onDateSelect, dataForDate }) => {
       days.push({
         label: date.getDate(),
         key: dateKey,
-        hasData: !!dataForDate
+        count: summaryData[dateKey] ? summaryData[dateKey] : 0
       });
       date.setDate(date.getDate() + 1);
     }
     return days;
+  };
+
+  const handleDateClick = (key) => {
+    setDisplayedDate(key);
+    onDateSelect(key, false);
   };
 
   const year = currentDate.getFullYear();
@@ -48,10 +60,14 @@ const Calendar = ({ onDateSelect, dataForDate }) => {
         {days.map((day) => (
           <button
             key={day.key}
-            className={`day-button ${day.hasData ? "has-data" : ""}`}
-            onClick={() => onDateSelect(day.key)}
+            className={`day-button 
+              ${summaryData[day.key] > 0 ? "has-data" : ""} 
+              ${displayedDate === summaryData[day.key] ? "selected" : ""}
+            `}
+            onClick={() => handleDateClick(day.key)}
           >
-            {day.label}
+            <div className="day-number">{day.label}</div>
+            {day.count > 0 && <div className="day-count">{day.count}</div>}
           </button>
         ))}
       </div>

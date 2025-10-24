@@ -86,19 +86,18 @@ export default function Test(props) {
   
   const addToMongo = async () => {
     console.log("add to Mongo");
-    const data = await fetch(`http://localhost:5000/test`, {
+    const data = await fetch(`http://localhost:5000/addlocally`, {
       headers: {
         "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify({ example, tweets })
+      // body: JSON.stringify({ example, tweets })
     });
 
     const importedJson = await data.json();
 
-    setIndex(0);
-    setJson(importedJson);
-    setLoaded(true);
+    console.log("importedJson : ", importedJson);
+
   }
   
   

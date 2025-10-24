@@ -10,18 +10,23 @@ import { serverUrl } from "./serverConstants";
   * @param {boolean} onlyFeatured get only featured debates, or get entire feed
   * @param {number} limit optional, used to get just 1 debate when interacting with notification
 */
-export const fetchDate = async (date) => {
-  const url = `${serverUrl}/fetch_date`;
+export const fetchMonth = async (dateString, summaryOnly) => {
+  const url = `${serverUrl}/fetch_month`;
   try {
     const responseData = await fetch(url, {
       headers: {
         "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify({ date })
+      body: JSON.stringify({ dateString, summaryOnly })
     });
 
     let json = await responseData.json();
+    
+    if (json.error) {
+      console.log("error")
+      return { error: true };
+    }
 
     return json;
 

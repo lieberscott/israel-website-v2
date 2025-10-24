@@ -33,6 +33,24 @@ export const claim5 = {
   incidentIds: []
 }
 
+export const claim6 = {
+  claimText: "NGOs are not impartial."
+}
+
+const claim7 = {
+
+}
+
+const claim8 = {
+
+}
+
+const claim9 = {
+
+}
+
+
+
 const buttons = [
   { category: "Skip" },
   // { category: "NoGazanIsInnocent" }, // 5
@@ -101,7 +119,7 @@ const buttons = [
   { category: "palestineWasARealPlaceLie" },
   { category: "palestiniansOnlyHaveThemselvesToBlame" },
   { category: "palestiniansWelcomedJewsLie"},
-  { category: "proIsraelProZionism" },
+  // { category: "proIsraelProZionism" },
   { category: "proPalestineViolenceIntimidation" },
   { category: "proPalestineHypocrisy" },
   { category: "proPalestineLies" },

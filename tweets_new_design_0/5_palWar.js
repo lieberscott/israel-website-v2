@@ -1,11 +1,12 @@
-export const claim5 = {
+const claim5 = {
   dateAdded: "",
-  claimText: "They don't want peaceful coexistence. They want total domination.",
+  claimText: "Zionism is the only path to peace. Palestinianism isn't about peaceful coexistence. It's about forever war until Israel is annhialated and Jews are either killed, converted, or submit to second-class status (Islamic concepts of 'jizya' and 'dhimmi'). This also extends to the entire Western World.",
+  claimShortText: "Palestinians want forever war",
   claimId: "000000005",
   incidentIds: []
 }
 
-export const examples5 = [
+const examples5 = [
   {
     dateAdded: "",
     date: "2025-02-04",
@@ -18,3 +19,5 @@ export const examples5 = [
     usTweets: []
   }
 ]
+
+module.exports = { claim5, examples5 };

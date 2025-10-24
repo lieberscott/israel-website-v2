@@ -1,11 +1,12 @@
-export const claim4 = {
+const claim4 = {
   dateAdded: "",
   claimText: "All they do is lie",
+  claimShortText: "All they do is lie",
   claimId: "000000004",
   incidentIds: []
 }
 
-export const examples4 = [
+const examples4 = [
   {
     dateAdded: "",
     date: "2025-07-15",
@@ -95,3 +96,6 @@ export const examples4 = [
     usTweets: [{ id: "1973562845171458155" }, { id: "1973070224367723002"}]
   }
 ]
+
+
+module.exports = { claim4, examples4 };

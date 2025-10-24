@@ -1,18 +1,19 @@
-export const claim1 = {
+const claim1 = {
   dateAdded: "",
   claimText: "Israel is the victim of impossible and hypocritical double standards by its so-called 'critics'",
+  claimShortText: "Hypocrisy",
   claimId: "000000001",
   incidentIds: [{ incidentId: "00000000X" }]
 }
 
-export const examples1 = [
+const examples1 = [
   {
     dateAdded: "",
     date: "2025-01-01",
     claimId: "00000001",
     incidentId: "00000000X",
     exampleId: "00000000A",
-    keywordIds: ["EmmanuelMacron", "Hypocrisy"],
+    keywordIds: ["EmmanuelMacron"],
     text: "When Israel targeted Hamas leaders in Qatar with a missile, France's President Emannuel Macron condemned it, calling it 'unacceptable,' even though France has struck terrorists in foreign countries numerous times under his own leadership!",
     themTweets: [{id: "1965452213792506048"}],
     usTweets: [{ id: "1965477345634255182" }, { id: "1965467866033209695" }]
@@ -23,7 +24,7 @@ export const examples1 = [
     claimId: "00000001",
     incidentId: "00000000X",
     exampleId: "00000000B",
-    keywordIds: ["BernieSanders", "Hypocrisy"],
+    keywordIds: ["BernieSanders"],
     text: "When America killed Osama bin Laden in Pakistan, Sen. Bernie Sanders applauded the act, praising President Obama and calling it 'a historic moment in our fight against international terrorism.' But when Israel fired missiles in Qatar targeting Hamas leaders, who organized, perpetrated, and celebrated the horrific Oct. 7 attack on Israel, he called it 'a blatent violation of international law' and a justification to end military aid to Israel!",
     themTweets: [{ id: "65074924829687808" }, { id: "1965519234592899316" }],
     usTweets: [{ id: "1965554587462717883" }, { id: "1965557161452601453" }, { id: "1965557610939326889"}]
@@ -34,7 +35,7 @@ export const examples1 = [
     claimId: "00000001",
     incidentId: "00000000X",
     exampleId: "00000000C",
-    keywordIds: ["UnitedNations", "Hypocrisy", "AntonioGuterres"],
+    keywordIds: ["UnitedNations", "AntonioGuterres"],
     text: "When America killed Osama bin Laden in Pakistan, United Nations Secretary General Antonio Guterres applauded the act, calling it 'a watershed moment in our common global fight against terrorism.' But when Israel fired missiles in Qatar targeting Hamas leaders, who organized, perpetrated, and celebrated the horrific Oct. 7 attack on Israel, he 'strongly condemned' the act and called it 'a clear violation of (Qatar's) sovereignty & territorial integrity.'",
     themTweets: [{ id: "1965464597042692415" }],
     usTweets: [{ id: "1965481295431290985" }]
@@ -51,3 +52,5 @@ export const examples1 = [
     usTweets: [{ id: "1973365569463394676"}, { id: "1973352469016060000"}]
   }
 ]
+
+module.exports = { claim1, examples1 };
