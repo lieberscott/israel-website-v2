@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import "../../styles/calendarStyles.css"; // import the CSS file
 
-const Calendar = ({ onDateSelect, summaryData, setDisplayedDate, displayedDate }) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+const Calendar = ({ onDateSelect, summaryData, displayedDate }) => {
+  const [calendarDate, setCalendarDate] = useState(new Date(displayedDate));
 
   // Move to previous month
   const prevMonth = () => {
-    const newYear = currentDate.getFullYear();
-    const newMonth = currentDate.getMonth() - 1;
+    const newYear = calendarDate.getFullYear();
+    const newMonth = calendarDate.getMonth() - 1;
+    
+    setCalendarDate(new Date(newYear, newMonth, 1));
 
-    setCurrentDate(new Date(newYear, newMonth, 1));
-    onDateSelect(`${newYear}-${newMonth}-1`, true); // get summaryOnly of prevMonth's records
+    // need to add +1 back to the month, because new Date() (above) is 0-indexed, so January is 0 and September is 8.
+    // But for the onDateSelect, we want the actual months 1-indexed, so January is 01 and September is 09
+    // So if we're in September and we want the previous month (August), we want it to be an 8
+    // calendar.getMonth() == 8 (September), then above we subtract 1 from it to make it 7, but we want 8 so we add 1 back to it
+    onDateSelect(`${newYear}-${newMonth + 1}-1`, true); // get summaryOnly of prevMonth's records
   };
 
   // Move to next month
   const nextMonth = () => {
-    const newYear = currentDate.getFullYear();
-    const newMonth = currentDate.getMonth() + 1;
-    setCurrentDate(new Date(newYear, newMonth, 1));
-    onDateSelect(`${newYear}-${newMonth}-1`, true); // get summaryOnly of nextMonth's records
+    const newYear = calendarDate.getFullYear();
+    const newMonth = calendarDate.getMonth() + 1;
+    setCalendarDate(new Date(newYear, newMonth, 1));
+
+    // need to add +1 to the month, because new Date() (above) is 0-indexed, so January is 0 and September is 8.
+    // But for the onDateSelect, we want the actual months 1-indexed, so January is 1 and September is 9
+    // So if we're in September and we want the next month (October), we want it to be a 10
+    // calendar.getMonth() == 8 (September), then above we add 1 to it to make it 9, but we want 10 so we add another 1 to it
+    onDateSelect(`${newYear}-${newMonth + 1}-1`, true); // get summaryOnly of nextMonth's records
   };
 
   // Get all days in the current month
@@ -38,12 +48,11 @@ const Calendar = ({ onDateSelect, summaryData, setDisplayedDate, displayedDate }
   };
 
   const handleDateClick = (key) => {
-    setDisplayedDate(key);
     onDateSelect(key, false);
   };
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
   const days = getDaysInMonth(year, month);
 
   return (
@@ -51,7 +60,7 @@ const Calendar = ({ onDateSelect, summaryData, setDisplayedDate, displayedDate }
       <div className="calendar-header">
         <button onClick={prevMonth}>&lt;</button>
         <span style={{color: "white" }}>
-          {currentDate.toLocaleString("default", { month: "long" })} {year}
+          {calendarDate.toLocaleString("default", { month: "long" })} {year}
         </span>
         <button onClick={nextMonth}>&gt;</button>
       </div>
