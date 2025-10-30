@@ -13,10 +13,10 @@ const examples5 = [
     claimId: "00000005",
     incidentId: "00000000S",
     exampleId: "00000000G",
-    keywordIds: [],
+    keywordIds: ["EmmanuelMacron", "KeirStarmer"],
     text: "After England, Canada, France and Australia recognized a Palestinian state, Palestinians in the 'moderate' West Bank (Judea and Samaria) say they don't want to live in peace with the Jews.",
-    themTweets: [{id: "1972068543366942795"}],
-    usTweets: []
+    themTweets: [{id: "1969763547224985774"}],
+    usTweets: [{id: "1972068543366942795"}]
   }
 ]
 

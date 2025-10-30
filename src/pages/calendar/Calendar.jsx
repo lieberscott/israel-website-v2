@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "../../styles/calendarStyles.css"; // import the CSS file
 
-const Calendar = ({ onDateSelect, summaryData, displayedDate }) => {
-  const [calendarDate, setCalendarDate] = useState(new Date(displayedDate));
+const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, setCalendarDate }) => {
+  // const [calendarDate, setCalendarDate] = useState(new Date(displayedDate));
+
 
   // Move to previous month
   const prevMonth = () => {
@@ -32,28 +33,35 @@ const Calendar = ({ onDateSelect, summaryData, displayedDate }) => {
   };
 
   // Get all days in the current month
+  const getDateKey = (date) => [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+
   const getDaysInMonth = (year, month) => {
-    const date = new Date(year, month, 1);
     const days = [];
+    const date = new Date(year, month, 1);
     while (date.getMonth() === month) {
-      const dateKey = date.toISOString().split("T")[0];
-      days.push({
-        label: date.getDate(),
-        key: dateKey,
-        count: summaryData[dateKey] ? summaryData[dateKey] : 0
-      });
+      const key = getDateKey(date);
+      const count = summaryData[key] || 0;
+      days.push({ label: date.getDate(), key, count });
       date.setDate(date.getDate() + 1);
     }
     return days;
   };
 
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  const days = useMemo(() => getDaysInMonth(year, month), [year, month, summaryData]);
+
   const handleDateClick = (key) => {
     onDateSelect(key, false);
   };
 
-  const year = calendarDate.getFullYear();
-  const month = calendarDate.getMonth();
-  const days = getDaysInMonth(year, month);
+  // const year = calendarDate.getFullYear();
+  // const month = calendarDate.getMonth();
+  // const days = getDaysInMonth(year, month);
 
   return (
     <div className="calendar-wrapper">

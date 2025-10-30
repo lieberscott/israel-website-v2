@@ -144,6 +144,10 @@
   flex: 1;
 }
 
+.horizontal-padding {
+  margin: 0 1rem;
+}
+
 /* Responsive: stack vertically on small screens */
 @media (max-width: 768px) {
   .flex-row {
