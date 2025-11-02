@@ -15,7 +15,7 @@ export default function Claims({ onClaimSelect }) {
   const handleRemove = () => {
     const newSelected = {};
     setSelectedClaim(newSelected);
-    onClaimSelect(newSelected);
+    onClaimSelect("");
   };
 
   return (
@@ -29,7 +29,7 @@ export default function Claims({ onClaimSelect }) {
               selectedClaim._id === claim._id ? "active" : ""
             }`}
           >
-            {claim.claimShortText}
+            {claim.claimShortText ? claim.claimShortText : claim.keyword }
           </button>
         ))}
       </div>

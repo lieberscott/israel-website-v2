@@ -54,6 +54,10 @@
   color: white;
 }
 
+.day-button.has-no-data {
+  color: black;
+}
+
 .day-button.selected {
   border: 2px solid #ffcc00;
   box-shadow: 0 0 6px rgba(255, 204, 0, 0.7);

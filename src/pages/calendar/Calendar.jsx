@@ -78,7 +78,7 @@ const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, setC
           <button
             key={day.key}
             className={`day-button 
-              ${summaryData[day.key] > 0 ? "has-data" : ""} 
+              ${summaryData[day.key] > 0 ? "has-data" : "has-no-data"} 
               ${displayedDate === summaryData[day.key] ? "selected" : ""}
             `}
             onClick={() => handleDateClick(day.key)}

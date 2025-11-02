@@ -1,19 +1,9 @@
 import * as React from "react";
 import { Switch, Route, Router } from "wouter";
-import staticLocationHook from "wouter/static-location";
-
-
 
 import Test from "../pages/singleExample/Test.jsx";
 import MainPage from "../pages/singleExample/MainPage.jsx";
-
-
-import Home from "../pages/home";
-import Tweet from "../pages/tweet";
-import TweetsHTML from "../pages/tweetsHTML";
-import TweetMain from "../pages/tweetMainFetch";
-import CategoryPage from "../pages/categoryPage";
-import Carousel from "../pages/carousel.jsx";
+import SubmitPage from "../pages/submitPage/SubmitPage.jsx";
 
 /**
 * The router is imported in app.jsx
@@ -25,11 +15,8 @@ import Carousel from "../pages/carousel.jsx";
 
 export default () => (
   <Switch>
-    <Route path="/" component={Home} />
-    <Route path="/tweet" component={Tweet} />
-    <Route path="/tweetsHTML" component={TweetsHTML} />
-    <Route path="/tweetMain" component={TweetMain} />
-    <Route path="/category/:cat" component={MainPage} />
-    <Route path="/test" component={Test} />
+    <Route path="/" component={MainPage} />
+    {/* <Route path="/test" component={Test} /> */}
+    <Route path="/submit" component={ SubmitPage } />
   </Switch>
 );

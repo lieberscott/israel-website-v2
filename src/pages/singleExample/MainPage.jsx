@@ -13,36 +13,10 @@ const defaultDayData = [
     usTweets: [ { id: "id1" }],
     themTweets: [{id: "id1"}],
     claimText: "",
-    text: ""
+    text: "",
+    keywordIds: []
   }
 ]
-
-
-/*
-
-1. onDateSelect - fetch the examples for that date ✅
-- should have a arrow to go through the Examples if there are multiple Examples for one day ✅
-- also fetch the number of Examples on each day that month and display them on the calendar; if within the same month as currently disaplyed month, no need to refetch them ✅
-- also display date at top ✅
-- also show how many usTweets and themTweets there are to user so they know to click through ✅
-- add claimText to each record ✅
-
-2. onNextMonth (user presses arrow to go to next month) - each date in the month has a number for the number of Examples on that day ✅
-
-3. Add Claims at the top of the page (where the current categories are)
-- onClick, they grab the Examples for the given Claim close to the displayedDate
-
-4. Keywords should be included in each Example, clickable to display
-- onClick, they grab the Examples for the given Claim close to the displayedDate
-
-5. Need a "View next" and "View previous" button that works for All (see next date), for Keywords (see next item in this Keyword), and for Categories (see next item in this Category)
-
-6. Need a submission page that includes entries for everything and an "example" to guide the user
-- must also include an email alert for any submissions to review and approve
-
-
-
-*/
 
 
 // Main Page
@@ -63,7 +37,7 @@ export default function MainPage() {
     onDateSelect(displayedDate, false);
   }, []);
 
-  const onDateSelect = async (dateString, summaryOnly) => {
+  const onDateSelect = async (dateString, summaryOnly, keywordId, claimId, findNext, findPrev, findFirst) => {
 
     // Step 1: Check if it's the same month and year (if so, data already here, no need to re-fetch)
     const [selectedYear, selectedMonth] = dateString.split('-');
@@ -87,7 +61,7 @@ export default function MainPage() {
 
 
     else {
-      const responseData = await fetchMonth(dateString, summaryOnly);
+      const responseData = await fetchMonth(dateString, summaryOnly, keywordId, claimId, findNext, findPrev, findFirst);
       if (responseData.error) {
         window.alert("Error")
       }
@@ -164,6 +138,7 @@ export default function MainPage() {
 
       catch (e) {
         console.log("Error : ", e);
+        window.alert("Error : ", e);
       }
     }
   }
@@ -216,20 +191,23 @@ export default function MainPage() {
 
       catch (e) {
         console.log("error : ", e);
+        window.alert("Error : ", e);
       }
     }
 
   }
 
-
-  const onClaimSelect = async () => {
+  // claimId will be a string or "" (if none)
+  const onClaimSelect = async (claimIdSelected) => {
     console.log("claim Select");
-    try {
+    const claimId = claimIdSelected === "" ? null : claimIdSelected;
+    const summaryOnly = false;
+    const keywordId = null;
+    const findNext = false;
+    const findPrev = false;
+    const findFirst = true;
+    await onDateSelect(displayedDate, summaryOnly, keywordId, claimId, findNext, findPrev, findFirst);
 
-    }
-    catch (e) {
-
-    }
   } 
 
   // next is a boolean of whether you're checking for the next date or previous date
@@ -256,8 +234,6 @@ export default function MainPage() {
     return <div style={{ color: "white" }}>Loading ...</div>
   }
 
-  console.log("dayData : ", dayData);
-
   return (
     <div className="p-6 space-y-8">
 
@@ -276,7 +252,7 @@ export default function MainPage() {
           year: "numeric",
           timeZone: "UTC"
         })}:
-          <span style={{ marginLeft: "10px", marginRight: "10px" }}>{currentIndex + 1} of {dayData.length}</span>
+          <span style={{ marginLeft: "10px", marginRight: "10px" }}>{dayData[0].text === "" ? "0" : currentIndex + 1} of {dayData[0].text === "" ? "0" : dayData.length}</span>
           <button onClick={prevExample}>&lt;</button>
           <button onClick={nextExample}>&gt;</button>
         </p>

@@ -1,124 +1,126 @@
 import React, { useState } from "react";
-import App from "../singleExample/MainPage.jsx"; // reuse your existing component for preview
+import Preview from "./Preview.jsx"; // reuse your existing component for preview
+import "../../styles/submitStyles.css";
+import { claims, keywords } from "../../../constants.js";
+import { submitExample } from "../../../api/api.js";
 
-// Example claims – you could also import from a data file
-const claims = [
-  "Claim 1: Example",
-  "Claim 2: Something else",
-  "Claim 3: Another one",
-];
 
 function SubmitPage() {
-  const [claim, setClaim] = useState(claims[0]);
+  const [claim, setClaim] = useState(claims[0].claimShortText);
+  const [claimId, setClaimId] = useState(claims[0]._id);
   const [explanation, setExplanation] = useState("");
   const [themTweets, setThemTweets] = useState("");
   const [usTweets, setUsTweets] = useState("");
-  const [previewData, setPreviewData] = useState(null);
   const [statusMessage, setStatusMessage] = useState("");
 
-  const handlePreview = () => {
-    const formatTweets = (str) =>
-      str.split(",").map((id) => `https://twitter.com/i/web/status/${id.trim()}`);
+  const formatTweets = (str) =>
+    str
+      .split(",")
+      .map((id) => id.trim())
+      .filter(Boolean)
+      .map((id) => ({ id }));
 
-    setPreviewData({
-      them: formatTweets(themTweets),
-      us: formatTweets(usTweets),
-      explanation,
-      claim,
-    });
+  const previewData = {
+    claim: claim,
+    explanation,
+    them: formatTweets(themTweets),
+    us: formatTweets(usTweets),
   };
 
+  // User submissions
   const handleSubmit = async () => {
+    const submitUsTweets = formatTweets(usTweets);
+    const submitThemTweets = formatTweets(themTweets);
     try {
-      // Replace with your API call or storage logic
-      console.log("Submitting:", { claim, explanation, themTweets, usTweets });
+      console.log("Submitting:", { claimId, claim, explanation, submitThemTweets, submitUsTweets });
 
-      // Simulate API success
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setStatusMessage("✅ Success! Your submission has been received.");
-    } catch (error) {
+      // simulate success
+      const responseData = await submitExample(claimId, claim, explanation, submitThemTweets, submitUsTweets);
+      if (responseData.error) {
+        console.log("error : ", e);
+        setStatusMessage("❌ There was a problem submitting. Please try again.");
+      }
+      else {
+        setStatusMessage("✅ Success! Your submission has been received.");
+      }
+    } catch (e) {
+      console.log("error : ", e);
       setStatusMessage("❌ There was a problem submitting. Please try again.");
     }
   };
 
   return (
     <div className="submit-page">
-      <h1>Submit Your Example</h1>
+      <h3>Submit Your Example</h3>
 
-      {/* Step 1: Claim */}
-      <div className="form-step">
-        <img src="/images/step1.png" alt="Step 1 help" className="step-image" />
-        <div className="step-content">
-          <label>Select a Claim:</label>
-          <select value={claim} onChange={(e) => setClaim(e.target.value)}>
-            {claims.map((c, i) => (
-              <option key={i} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* Claim */}
+      <div className="form-line">
+        <label>Select a Claim:</label>
+        <select value={claim} onChange={(e) => {
+          const selectedClaim = claims.find(c => c._id === e.target.value);
+          setClaim(selectedClaim.claimText);
+          setClaimId(selectedClaim._id);
+        }}>
+          {claims.map((c, i) => (
+            <option key={c._id} value={c._id}>
+              {c.claimShortText }
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Step 2: Explanation */}
-      <div className="form-step">
-        <img src="/images/step2.png" alt="Step 2 help" className="step-image" />
-        <div className="step-content">
-          <label>Explanation:</label>
-          <textarea
-            value={explanation}
-            onChange={(e) => setExplanation(e.target.value)}
-            rows="4"
-            placeholder="Write a short explanation..."
-          />
-        </div>
+      {/* Explanation */}
+      <div className="form-line">
+        <label>Explanation:</label>
+        <textarea
+          value={explanation}
+          onChange={(e) => setExplanation(e.target.value)}
+          rows="3"
+          placeholder="Write an explanation of exactly what the Tweets below are saying and how they are an example of the claim above."
+        />
       </div>
 
-      {/* Step 3: Them Tweets */}
-      <div className="form-step">
-        <img src="/images/step3.png" alt="Step 3 help" className="step-image" />
-        <div className="step-content">
-          <label>Them Tweet IDs (comma-separated):</label>
-          <input
-            type="text"
-            value={themTweets}
-            onChange={(e) => setThemTweets(e.target.value)}
-            placeholder="1234567890, 2345678901"
-          />
-        </div>
+      {/* Them Tweets */}
+      <div className="form-line">
+        <label>Them Tweet IDs (comma-separated):</label>
+        <input
+          type="text"
+          value={themTweets}
+          onChange={(e) => setThemTweets(e.target.value)}
+          placeholder="1234567890, 2345678901"
+        />
       </div>
 
-      {/* Step 4: Us Tweets */}
-      <div className="form-step">
-        <img src="/images/step4.png" alt="Step 4 help" className="step-image" />
-        <div className="step-content">
-          <label>Us Tweet IDs (comma-separated):</label>
-          <input
-            type="text"
-            value={usTweets}
-            onChange={(e) => setUsTweets(e.target.value)}
-            placeholder="9876543210, 8765432109"
-          />
-        </div>
+      {/* Us Tweets */}
+      <div className="form-line">
+        <label>Us Tweet IDs (comma-separated):</label>
+        <input
+          type="text"
+          value={usTweets}
+          onChange={(e) => setUsTweets(e.target.value)}
+          placeholder="9876543210, 8765432109"
+        />
       </div>
 
-      {/* Preview and Submit */}
+      <img
+        src="./images/tweetid.png"
+        alt="Where to find TweetIds"
+        className="form-image"
+      />
+
+      {/* Live Preview */}
+      <div className="preview">
+        <h2>Live Preview</h2>
+        <Preview data={previewData} />
+      </div>
+
+      {/* Submit */}
       <div className="form-actions">
-        <button onClick={handlePreview}>Preview</button>
         <button onClick={handleSubmit}>Submit</button>
       </div>
 
-      {/* Status Message */}
       {statusMessage && <p className="status">{statusMessage}</p>}
 
-      {/* Preview Area */}
-      {previewData && (
-        <div className="preview">
-          <h2>Preview</h2>
-          <App previewData={previewData} />
-        </div>
-      )}
     </div>
   );
 }
