@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/calendarStyles.css"; // import the CSS file
 
-const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, setCalendarDate }) => {
+const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, handleCalendarDate }) => {
   // const [calendarDate, setCalendarDate] = useState(new Date(displayedDate));
 
 
@@ -10,7 +10,7 @@ const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, setC
     const newYear = calendarDate.getFullYear();
     const newMonth = calendarDate.getMonth() - 1;
     
-    setCalendarDate(new Date(newYear, newMonth, 1));
+    handleCalendarDate(new Date(newYear, newMonth, 1));
 
     // need to add +1 back to the month, because new Date() (above) is 0-indexed, so January is 0 and September is 8.
     // But for the onDateSelect, we want the actual months 1-indexed, so January is 01 and September is 09
@@ -23,7 +23,7 @@ const Calendar = ({ onDateSelect, summaryData, displayedDate, calendarDate, setC
   const nextMonth = () => {
     const newYear = calendarDate.getFullYear();
     const newMonth = calendarDate.getMonth() + 1;
-    setCalendarDate(new Date(newYear, newMonth, 1));
+    handleCalendarDate(new Date(newYear, newMonth, 1));
 
     // need to add +1 to the month, because new Date() (above) is 0-indexed, so January is 0 and September is 8.
     // But for the onDateSelect, we want the actual months 1-indexed, so January is 1 and September is 9

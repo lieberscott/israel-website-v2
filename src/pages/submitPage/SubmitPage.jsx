@@ -6,7 +6,7 @@ import { submitExample } from "../../../api/api.js";
 
 
 function SubmitPage() {
-  const [claim, setClaim] = useState(claims[0].claimShortText);
+  const [claim, setClaim] = useState(claims[0].claimShortText || "");
   const [claimId, setClaimId] = useState(claims[0]._id);
   const [explanation, setExplanation] = useState("");
   const [themTweets, setThemTweets] = useState("");
@@ -56,19 +56,36 @@ function SubmitPage() {
       {/* Claim */}
       <div className="form-line">
         <label>Select a Claim:</label>
-        <select value={claim} onChange={(e) => {
-          const selectedClaim = claims.find(c => c._id === e.target.value);
-          setClaim(selectedClaim.claimText);
-          setClaimId(selectedClaim._id);
-        }}>
-          {claims.map((c, i) => (
+        <select
+          value={claimId}
+          onChange={(e) => {
+            const selectedClaim = claims.find((c) => c._id === e.target.value);
+            if (selectedClaim) {
+              setClaim(selectedClaim.claimText);
+              setClaimId(selectedClaim._id);
+            } else {
+              setClaim("");
+              setClaimId("newClaimId");
+            }
+          }}
+        >
+          {claims.map((c) => (
             <option key={c._id} value={c._id}>
-              {c.claimShortText }
+              {c.claimShortText}
             </option>
           ))}
+          <option value="newClaimId">➕ Add a new claim</option>
         </select>
-      </div>
 
+        {claimId === "newClaimId" && (
+          <input
+            type="text"
+            placeholder="Enter new claim..."
+            value={claim}
+            onChange={(e) => setClaim(e.target.value)}
+          />
+        )}
+      </div>
       {/* Explanation */}
       <div className="form-line">
         <label>Explanation:</label>

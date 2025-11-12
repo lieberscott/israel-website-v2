@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "../../styles/stylesheet.css"; // import the CSS file
@@ -7,11 +7,42 @@ import "../../styles/stylesheet.css"; // import the CSS file
 import TweetCard from "./TweetCard.jsx";
 
 // Carousel component
-export default function TweetCarousel({ tweets, displayedDate, currentIndex }) {
-  const [index, setIndex] = useState(0);
+export default function TweetCarousel({ tweets, displayedDate, currentIndex, tweetIndex, handleTweetIndex }) {
+  // const [index, setIndex] = useState(0);
 
-  const prev = () => setIndex((i) => (i === 0 ? tweets.length - 1 : i - 1));
-  const next = () => setIndex((i) => (i === tweets.length - 1 ? 0 : i + 1));
+  const prev = () =>{
+    if (clickCooldown.current) return;
+    clickCooldown.current = true;
+    setTimeout(() => (clickCooldown.current = false), 400);
+
+    if (tweets.length === 0) {
+      handleTweetIndex(0)
+    }
+    else if (tweetIndex === 0) {
+      handleTweetIndex(tweets.length - 1);
+    }
+    else {
+      handleTweetIndex(tweetIndex - 1);
+    }
+
+    // handleTweetIndex((i) => (tweets.length === 0 ? 0 : i === 0 ? tweets.length - 1 : i - 1));
+  }
+
+  const next = () => {
+    if (clickCooldown.current) return;
+    clickCooldown.current = true;
+    setTimeout(() => (clickCooldown.current = false), 400);
+
+    if (tweetIndex === tweets.length - 1 || tweets.length === 0) {
+      handleTweetIndex(0);
+    }
+    else {
+      handleTweetIndex(tweetIndex + 1);
+    }
+
+    // handleTweetIndex((i) => (i === tweets.length - 1 || tweets.length === 0 ? 0 : i + 1));
+  }
+  const clickCooldown = useRef(false);
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -21,7 +52,7 @@ export default function TweetCarousel({ tweets, displayedDate, currentIndex }) {
           <ChevronLeft size={18} />
         </button>
         <p className="font-bold text-gray-700 text-sm horizontal-padding">
-          Tweet {index + 1} of {tweets.length}
+          Tweet {tweetIndex + 1} of {tweets.length}
         </p>
         <button onClick={next} className="p-2 bg-gray-200 rounded-full">
           <ChevronRight size={18} />
@@ -29,13 +60,13 @@ export default function TweetCarousel({ tweets, displayedDate, currentIndex }) {
       </div>
 
       <motion.div
-        key={displayedDate + currentIndex + index}
+        key={displayedDate + currentIndex + tweetIndex}
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -100 }}
         transition={{ duration: 0.3 }}
       >
-        <TweetCard tweetId={ tweets.length > 0 ? tweets[index].id : "id1" } />
+        <TweetCard tweetId={ tweets.length > 0 ? tweets[tweetIndex].id : "id1" } />
       </motion.div>
 
     </div>
